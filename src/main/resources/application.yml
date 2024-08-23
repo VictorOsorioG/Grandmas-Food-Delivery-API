@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: grandmas-food-delivery-api
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:file:./grandmasfoodDB;MODE=MySQL
+    username: shouldBeEnv
+    password: shouldBeEnv
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  h2:
+    console.enabled: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api/delivery
+
+logging:
+  level:
+    root: info
+
+flyway:
+  user: shouldBeEnv
+  password: shouldBeEnv
+  schemas: grandmasfoodDB
+  url: jdbc:h2:file:./grandmasfoodDB
+  locations: filesystem:db/migration
