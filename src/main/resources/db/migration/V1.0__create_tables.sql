@@ -1,5 +1,5 @@
 CREATE TABLE customers (
-  id UUID NOT NULL,
+  id bigint(20) NOT NULL,
   document_number varchar(20) UNIQUE NOT NULL,
   full_name varchar(255) NOT NULL,
   email varchar(255) NOT NULL,
@@ -10,7 +10,8 @@ CREATE TABLE customers (
 );
 
 CREATE TABLE products (
-  id UUID NOT NULL,
+  id bigint(20) NOT NULL,
+  uid UUID NOT NULL,
   category enum('HAMBURGERS_AND_HOTDOGS','CHICKEN,FISH','MEATS','DESSERTS','VEGAN_FOOD','KIDS_MEALS') NOT NULL,
   combo_name varchar(255) UNIQUE COMMENT 'Stored in uppercase' NOT NULL,
   description varchar(511) NOT NULL,
@@ -21,9 +22,10 @@ CREATE TABLE products (
 );
 
 CREATE TABLE orders (
-  id UUID NOT NULL,
-  customer_id UUID NOT NULL,
-  delivery_id UUID NOT NULL,
+  id bigint(20) NOT NULL,
+  uid UUID NOT NULL,
+  customer_id bigint(20) NOT NULL,
+  delivery_id bigint(20) NOT NULL,
   order_date timestamp NOT NULL,
   subtotal decimal(10,2) NOT NULL,
   iva decimal(10,2) NOT NULL,
@@ -31,13 +33,13 @@ CREATE TABLE orders (
   is_delivered boolean NOT NULL DEFAULT FALSE,
   delivered_at timestamp DEFAULT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (customer_id) REFERENCES customers (`id`)
+  FOREIGN KEY (customer_id) REFERENCES customers (id)
 );
 
 CREATE TABLE order_items (
   id UUID NOT NULL,
-  order_id UUID NOT NULL,
-  product_id UUID NOT NULL,
+  order_id bigint(20) NOT NULL,
+  product_id bigint(20) NOT NULL,
   quantity int NOT NULL,
   additional_info varchar(511) NOT NULL,
   price decimal(10,2) NOT NULL,
