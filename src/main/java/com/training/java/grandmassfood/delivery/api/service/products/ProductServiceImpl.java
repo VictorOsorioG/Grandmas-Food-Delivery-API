@@ -1,0 +1,49 @@
+package com.training.java.grandmassfood.delivery.api.service.products;
+
+import com.training.java.grandmassfood.delivery.api.persistence.products.ProductPersistence;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.Objects;
+import java.util.UUID;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class ProductServiceImpl implements ProductService {
+
+    private final ProductPersistence productPersistence;
+
+    @Override
+    public void productExists(UUID uuid) {
+        if (!productPersistence.productExists(uuid)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
+    public void productIsAvailable(UUID uuid) {
+        if (!productPersistence.productIsAvailable(uuid)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
+    public Double getProductPrice(UUID uuid) {
+        Double productPrice = productPersistence.getProductPrice(uuid);
+        if (Objects.isNull(productPrice)) {
+            throw new IllegalArgumentException();
+        }
+        return productPrice;
+    }
+
+    @Override
+    public Long getProductId(UUID productUuid) {
+        Long productId = productPersistence.getProductId(productUuid);
+        if (Objects.isNull(productId)) {
+            throw new IllegalArgumentException();
+        }
+        return productId;
+    }
+}

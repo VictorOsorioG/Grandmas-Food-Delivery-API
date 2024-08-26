@@ -29,3 +29,7 @@ flyway:
   schemas: grandmasfoodDB
   url: jdbc:h2:file:./grandmasfoodDB
   locations: filesystem:db/migration
+
+values:
+  iva:
+    value: 0.19
