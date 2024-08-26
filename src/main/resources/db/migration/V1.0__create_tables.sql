@@ -1,5 +1,5 @@
 CREATE TABLE customers (
-  id bigint(20) NOT NULL,
+  id bigint(20) AUTO_INCREMENT NOT NULL,
   document_number varchar(20) UNIQUE NOT NULL,
   full_name varchar(255) NOT NULL,
   email varchar(255) NOT NULL,
@@ -10,8 +10,8 @@ CREATE TABLE customers (
 );
 
 CREATE TABLE products (
-  id bigint(20) NOT NULL,
-  uid UUID NOT NULL,
+  id bigint(20) AUTO_INCREMENT NOT NULL,
+  uuid UUID NOT NULL,
   category enum('HAMBURGERS_AND_HOTDOGS','CHICKEN,FISH','MEATS','DESSERTS','VEGAN_FOOD','KIDS_MEALS') NOT NULL,
   combo_name varchar(255) UNIQUE COMMENT 'Stored in uppercase' NOT NULL,
   description varchar(511) NOT NULL,
@@ -22,10 +22,9 @@ CREATE TABLE products (
 );
 
 CREATE TABLE orders (
-  id bigint(20) NOT NULL,
-  uid UUID NOT NULL,
+  id bigint(20) AUTO_INCREMENT NOT NULL,
+  uuid UUID NOT NULL,
   customer_id bigint(20) NOT NULL,
-  delivery_id bigint(20) NOT NULL,
   order_date timestamp NOT NULL,
   subtotal decimal(10,2) NOT NULL,
   iva decimal(10,2) NOT NULL,
@@ -37,7 +36,7 @@ CREATE TABLE orders (
 );
 
 CREATE TABLE order_items (
-  id UUID NOT NULL,
+  id bigint(20) AUTO_INCREMENT NOT NULL,
   order_id bigint(20) NOT NULL,
   product_id bigint(20) NOT NULL,
   quantity int NOT NULL,
