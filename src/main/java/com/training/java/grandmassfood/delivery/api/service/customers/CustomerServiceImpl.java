@@ -1,5 +1,6 @@
 package com.training.java.grandmassfood.delivery.api.service.customers;
 
+import com.training.java.grandmassfood.delivery.api.exception.customers.CustomerNotFoundException;
 import com.training.java.grandmassfood.delivery.api.persistence.customers.CustomerPersistence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void clientExists(String clientDocument) {
         if (!customerPersistence.clientExists(clientDocument)) {
-            throw new IllegalArgumentException();
+            throw new CustomerNotFoundException(clientDocument);
         }
     }
 
@@ -25,7 +26,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Long getCustomerId(String clientDocument) {
         Long customerId = customerPersistence.getCustomerId(clientDocument);
         if (Objects.isNull(customerId)) {
-            throw new IllegalArgumentException();
+            throw new CustomerNotFoundException(clientDocument);
         }
         return customerId;
     }
