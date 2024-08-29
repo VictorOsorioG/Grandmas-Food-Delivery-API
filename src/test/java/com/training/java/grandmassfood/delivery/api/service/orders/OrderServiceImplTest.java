@@ -7,18 +7,12 @@ import com.training.java.grandmassfood.delivery.api.persistence.orders.OrderPers
 import com.training.java.grandmassfood.delivery.api.service.customers.CustomerService;
 import com.training.java.grandmassfood.delivery.api.service.orderitems.OrderItemsService;
 import com.training.java.grandmassfood.delivery.api.service.products.ProductService;
-import jakarta.annotation.security.RunAs;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 class OrderServiceImplTest {
@@ -50,7 +44,6 @@ class OrderServiceImplTest {
                 .uuid(UUID.randomUUID())
                 .iva(1.0)
                 .total(1.0)
-                .isDelivered(false)
                 .subtotal(1.0)
                 .build();
 

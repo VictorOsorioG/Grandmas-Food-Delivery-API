@@ -50,7 +50,6 @@ public class OrderServiceImpl implements OrderService {
         Double subtotal = orderItemsService.getSubtotal(productPrice, orderRequest.getQuantity());
         Double productIva = calculateIva(subtotal);
         Double total = calculateTotal(subtotal, productIva);
-
         return FullOrder.builder()
                 .uuid(UUID.randomUUID())
                 .customerId(customerId)
