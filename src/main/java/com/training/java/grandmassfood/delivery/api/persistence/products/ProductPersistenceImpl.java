@@ -1,12 +1,15 @@
 package com.training.java.grandmassfood.delivery.api.persistence.products;
 
+import com.training.java.grandmassfood.delivery.api.dao.products.dto.ProductGetResponse;
 import com.training.java.grandmassfood.delivery.api.dao.products.entity.Product;
 import com.training.java.grandmassfood.delivery.api.dao.products.repository.ProductRepository;
+import com.training.java.grandmassfood.delivery.api.exception.products.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -45,4 +48,24 @@ public class ProductPersistenceImpl implements ProductPersistence {
     public Product getProductReference(Long productId) {
         return productRepository.getReferenceById(productId);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ProductGetResponse getProductByUuid(UUID uuid) {
+        Optional<Product> optionalProduct = productRepository.findByUuid(uuid);
+        return optionalProduct.map(product -> mapToResponse(product))
+                .orElseThrow(() -> new ProductNotFoundException(uuid));
+
+    }
+    private ProductGetResponse mapToResponse(Product product) {
+        return ProductGetResponse.builder()
+                .productUuid(product.getUuid())
+                .comboName(product.getComboName())
+                .category(product.getCategory())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .isAvailable(product.getIsAvailable())
+                .build();
+    }
+
 }
