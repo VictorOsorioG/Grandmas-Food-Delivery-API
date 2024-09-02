@@ -1,13 +1,18 @@
 package com.training.java.grandmassfood.delivery.api.service.products;
 
+import com.training.java.grandmassfood.delivery.api.dao.products.dto.ProductGetResponse;
+import com.training.java.grandmassfood.delivery.api.dao.products.entity.Product;
+import com.training.java.grandmassfood.delivery.api.dao.products.repository.ProductRepository;
 import com.training.java.grandmassfood.delivery.api.exception.products.ProductNotAvailableException;
 import com.training.java.grandmassfood.delivery.api.exception.products.ProductNotFoundException;
 import com.training.java.grandmassfood.delivery.api.persistence.products.ProductPersistence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -47,5 +52,10 @@ public class ProductServiceImpl implements ProductService {
             throw new ProductNotFoundException(productUuid);
         }
         return productId;
+    }
+
+    @Override
+    public ProductGetResponse getProductByUuid(UUID uuid) {
+        return productPersistence.getProductByUuid(uuid);
     }
 }
