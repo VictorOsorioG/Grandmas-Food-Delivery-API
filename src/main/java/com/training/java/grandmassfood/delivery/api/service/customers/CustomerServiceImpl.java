@@ -1,7 +1,7 @@
 package com.training.java.grandmassfood.delivery.api.service.customers;
 
 import com.training.java.grandmassfood.delivery.api.dao.customers.dto.CustomerResponse;
-import com.training.java.grandmassfood.delivery.api.dao.customers.entity.Customer;
+import com.training.java.grandmassfood.delivery.api.exception.customers.ClientDocumentNotValidException;
 import com.training.java.grandmassfood.delivery.api.exception.customers.CustomerNotFoundException;
 import com.training.java.grandmassfood.delivery.api.persistence.customers.CustomerPersistence;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 @Slf4j
 @Service
@@ -32,14 +33,22 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return customerId;
     }
+
     @Override
     public CustomerResponse getCustomerByDocument(String clientDocument) {
-        //to do : validar que sea un formato de documento válido. Si no lo es mandar un mensaje de formato de documento inválido con el status 400
-        //Formato válido: CC-
-        //                CE-
-        //                P-# (máximo 20 caracteres)
-        // Si no cumple, retorna excepción (crear una excepción ClientDocumentNotValidException
+        // Validate the format of clientDocument
+        if (!isValidClientDocument(clientDocument)) {
+            throw new ClientDocumentNotValidException("The client document format is not valid: " + clientDocument);
+        }
+
+        // If the document format is valid, retrieve the customer
         return customerPersistence.getCustomerByDocument(clientDocument);
     }
 
+    private boolean isValidClientDocument(String clientDocument) {
+        // Regular expression to match the valid formats
+        String regex = "^(CC|CE|P)-\\d{1,20}$";
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(clientDocument).matches();
+    }
 }
