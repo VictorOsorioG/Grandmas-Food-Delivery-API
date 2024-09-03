@@ -1,5 +1,6 @@
 package com.training.java.grandmassfood.delivery.api.service.products;
 
+import com.training.java.grandmassfood.delivery.api.dao.products.dto.ProductGetResponse;
 import com.training.java.grandmassfood.delivery.api.exception.products.ProductNotAvailableException;
 import com.training.java.grandmassfood.delivery.api.exception.products.ProductNotFoundException;
 import com.training.java.grandmassfood.delivery.api.persistence.products.ProductPersistence;
@@ -47,5 +48,10 @@ public class ProductServiceImpl implements ProductService {
             throw new ProductNotFoundException(productUuid);
         }
         return productId;
+    }
+
+    @Override
+    public ProductGetResponse getProductByUuid(UUID uuid) {
+        return productPersistence.getProductByUuid(uuid);
     }
 }
