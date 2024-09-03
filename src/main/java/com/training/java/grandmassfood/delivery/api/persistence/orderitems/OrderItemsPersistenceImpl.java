@@ -26,6 +26,12 @@ public class OrderItemsPersistenceImpl implements OrderItemsPersistence {
         return mapOrderItemsToDto(orderItems);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public OrderItemsDto findOrderItems(Order orderUpdated) {
+        return mapOrderItemsToDto(orderItemsRepository.findByOrderId(orderUpdated.getId()));
+    }
+
     private OrderItemsDto mapOrderItemsToDto(OrderItems orderItems) {
         return OrderItemsDto.builder()
                 .product(orderItems.getProduct())
