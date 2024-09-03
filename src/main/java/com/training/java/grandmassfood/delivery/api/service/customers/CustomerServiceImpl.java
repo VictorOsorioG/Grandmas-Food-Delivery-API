@@ -38,7 +38,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerResponse getCustomerByDocument(String clientDocument) {
         // Validate the format of clientDocument
         if (!isValidClientDocument(clientDocument)) {
-            throw new ClientDocumentNotValidException("The client document format is not valid: " + clientDocument);
+            throw new ClientDocumentNotValidException(clientDocument);
         }
 
         // If the document format is valid, retrieve the customer

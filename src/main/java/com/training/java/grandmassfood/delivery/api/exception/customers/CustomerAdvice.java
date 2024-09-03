@@ -14,4 +14,10 @@ public class CustomerAdvice {
                 .body(customerNotFoundException.getStandardError());
     }
 
+    @ExceptionHandler(ClientDocumentNotValidException.class)
+    ResponseEntity<StandardError> handleClientDocumentNotValidException(ClientDocumentNotValidException clientDocumentNotValidException) {
+        return ResponseEntity.status(clientDocumentNotValidException.getHttpStatus())
+                .body(clientDocumentNotValidException.getStandardError());
+    }
+
 }

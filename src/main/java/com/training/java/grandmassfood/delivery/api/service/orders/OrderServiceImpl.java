@@ -3,6 +3,9 @@ package com.training.java.grandmassfood.delivery.api.service.orders;
 import com.training.java.grandmassfood.delivery.api.dao.orders.dto.FullOrder;
 import com.training.java.grandmassfood.delivery.api.dao.orders.dto.OrderCreatedResponse;
 import com.training.java.grandmassfood.delivery.api.dao.orders.dto.OrderRequest;
+import com.training.java.grandmassfood.delivery.api.exception.orders.InvalidOrderDeliveredDate;
+import com.training.java.grandmassfood.delivery.api.exception.orders.OrderIsDeliveredException;
+import com.training.java.grandmassfood.delivery.api.exception.orders.OrderNotFoundException;
 import com.training.java.grandmassfood.delivery.api.persistence.orders.OrderPersistence;
 import com.training.java.grandmassfood.delivery.api.service.customers.CustomerService;
 import com.training.java.grandmassfood.delivery.api.service.orderitems.OrderItemsService;
@@ -10,7 +13,6 @@ import com.training.java.grandmassfood.delivery.api.service.products.ProductServ
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -35,6 +37,32 @@ public class OrderServiceImpl implements OrderService {
         validateOrder(orderRequest.getClientDocument(), orderRequest.getProductUuid());
         FullOrder fullOrder = buildFullOrder(orderRequest);
         return orderPersistence.saveOrder(fullOrder);
+    }
+
+    @Override
+    public OrderCreatedResponse updateOrderToDelivered(UUID uuid, LocalDateTime timestamp) {
+        validateOrderAndTimestamp(uuid, timestamp);
+        return orderPersistence.updateOrderToDelivered(uuid, timestamp);
+    }
+
+    private void validateOrderAndTimestamp(UUID uuid, LocalDateTime timestamp) {
+        orderExists(uuid);
+        orderIsDelivered(uuid);
+        if (timestamp.isAfter(LocalDateTime.now())) {
+            throw new InvalidOrderDeliveredDate(timestamp);
+        }
+    }
+
+    private void orderExists(UUID uuid) {
+        if (!orderPersistence.orderExist(uuid)) {
+            throw new OrderNotFoundException(uuid);
+        }
+    }
+
+    private void orderIsDelivered(UUID uuid) {
+        if (orderPersistence.orderIsDelivered(uuid)) {
+            throw new OrderIsDeliveredException(uuid);
+        }
     }
 
     private void validateOrder(String clientDocument, UUID productUuid) {

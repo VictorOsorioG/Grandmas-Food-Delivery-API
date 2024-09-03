@@ -13,6 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -34,6 +37,31 @@ public class OrderPersistenceImpl implements OrderPersistence {
                 fullOrder.getAdditionalInfo()
         );
         return mapToResponse(order, orderItemsDto) ;
+    }
+
+    @Override
+    @Transactional
+    public OrderCreatedResponse updateOrderToDelivered(UUID uuid, LocalDateTime timestamp) {
+        Order orderUpdated = updateOrder(uuid, timestamp);
+        OrderItemsDto orderItemsDto = orderItemsPersistence.findOrderItems(orderUpdated);
+        return mapToResponse(orderUpdated, orderItemsDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean orderExist(UUID uuid) {
+        return orderRepository.existsByUuid(uuid);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean orderIsDelivered(UUID uuid) {
+        return orderRepository.isDelivered(uuid);
+    }
+
+    private Order updateOrder(UUID uuid, LocalDateTime timestamp) {
+        orderRepository.updateToDelivered(uuid, timestamp);
+        return orderRepository.findByUuid(uuid);
     }
 
     private OrderCreatedResponse mapToResponse(Order order, OrderItemsDto orderItemsDto) {
