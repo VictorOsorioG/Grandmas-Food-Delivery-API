@@ -18,6 +18,6 @@ public class OrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OrderCreatedResponse createOrder(@Valid @RequestBody OrderRequest orderRequest) {
-       return orderService.saveOrder(orderRequest);
+           return orderService.saveOrder(orderRequest);
     }
 }

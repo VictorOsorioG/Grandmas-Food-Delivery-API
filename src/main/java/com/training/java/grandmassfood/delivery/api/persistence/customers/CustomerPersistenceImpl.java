@@ -1,9 +1,12 @@
 package com.training.java.grandmassfood.delivery.api.persistence.customers;
 
+import com.training.java.grandmassfood.delivery.api.dao.customers.dto.CustomerResponse;
 import com.training.java.grandmassfood.delivery.api.dao.customers.entity.Customer;
 import com.training.java.grandmassfood.delivery.api.dao.customers.repository.CustomerRepository;
+import com.training.java.grandmassfood.delivery.api.exception.customers.CustomerNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomerPersistenceImpl implements CustomerPersistence {
 
     private final CustomerRepository customerRepository;
+    private final ModelMapper modelMapper;
+
 
     @Override
     @Transactional(readOnly = true)
@@ -31,4 +36,13 @@ public class CustomerPersistenceImpl implements CustomerPersistence {
     public Customer getCustomerReference(Long customerId) {
         return customerRepository.getReferenceById(customerId);
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public CustomerResponse getCustomerByDocument(String clientDocument) {
+        return customerRepository.findByDocumentNumber(clientDocument)
+                .map(customer->modelMapper.map(customer,CustomerResponse.class))
+                .orElseThrow(()->new CustomerNotFoundException(clientDocument));
+    }
+
 }
