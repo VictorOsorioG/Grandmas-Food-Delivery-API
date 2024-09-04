@@ -20,4 +20,10 @@ public class GlobalExceptionAdvice {
                         .exception(argumentTypeMismatchException.getClass().getSimpleName())
                         .build());
     }
+
+    @ExceptionHandler(StandardException.class)
+    ResponseEntity<StandardError> handleProductNotFoundException(StandardException standardException) {
+        return ResponseEntity.status(standardException.getHttpStatus())
+                .body(standardException.getStandardError());
+    }
 }

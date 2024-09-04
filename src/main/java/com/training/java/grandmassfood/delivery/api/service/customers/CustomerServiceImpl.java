@@ -5,6 +5,7 @@ import com.training.java.grandmassfood.delivery.api.dao.customers.dto.CustomerRe
 import com.training.java.grandmassfood.delivery.api.exception.customers.ClientAlreadyExists;
 import com.training.java.grandmassfood.delivery.api.exception.customers.ClientDocumentNotValidException;
 import com.training.java.grandmassfood.delivery.api.exception.customers.CustomerNotFoundException;
+import com.training.java.grandmassfood.delivery.api.exception.customers.NoChangesToUpdateException;
 import com.training.java.grandmassfood.delivery.api.persistence.customers.CustomerPersistence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +48,28 @@ public class CustomerServiceImpl implements CustomerService {
         isValidClientDocument(customerRequest.getDocumentNumber());
         isClientAlreadyExists(customerRequest.getDocumentNumber());
         return customerPersistence.createCustomer(customerRequest);
+    }
+
+    @Override
+    public void updateCustomer(String document, CustomerRequest customerRequest) {
+        clientExists(document);
+        customerHasDifferentFields(document, customerRequest);
+        customerPersistence.updateCustomer(document, customerRequest);
+    }
+
+    private void customerHasDifferentFields(String currentDocument, CustomerRequest updatedCustomer) {
+        CustomerResponse currentCustomer = customerPersistence.getCustomerByDocument(currentDocument);
+        if (customerEquals(updatedCustomer, currentCustomer)) {
+            throw new NoChangesToUpdateException(currentDocument);
+        }
+    }
+
+    private boolean customerEquals(CustomerRequest updatedCustomer, CustomerResponse currentCustomer) {
+        return Objects.equals(updatedCustomer.getDocumentNumber(), currentCustomer.getDocumentNumber())
+                && Objects.equals(updatedCustomer.getFullName(), currentCustomer.getFullName())
+                && Objects.equals(updatedCustomer.getEmail(), currentCustomer.getEmail())
+                && Objects.equals(updatedCustomer.getPhoneNumber(), currentCustomer.getPhoneNumber())
+                && Objects.equals(updatedCustomer.getShippingAddress(), currentCustomer.getShippingAddress());
     }
 
     private void isClientAlreadyExists(String clientDocument) {
