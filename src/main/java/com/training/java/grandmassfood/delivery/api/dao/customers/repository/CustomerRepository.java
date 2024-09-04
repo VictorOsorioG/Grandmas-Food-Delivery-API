@@ -2,6 +2,7 @@ package com.training.java.grandmassfood.delivery.api.dao.customers.repository;
 
 import com.training.java.grandmassfood.delivery.api.dao.customers.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -23,4 +24,19 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     Optional<Customer> findByDocumentNumber(String clientDocument);
 
+    @Query("UPDATE Customer c " +
+            "SET c.documentNumber = :documentNumber, " +
+            "c.fullName = :fullName, " +
+            "c.email = :email, " +
+            "c.phoneNumber = :phoneNumber, " +
+            "c.shippingAddress = :shippingAddress " +
+            "WHERE c.documentNumber = :clientDocument")
+    @Modifying
+    void update(@Param("clientDocument") String clientDocument,
+                @Param("documentNumber") String documentNumber,
+                @Param("fullName") String fullName,
+                @Param("email") String email,
+                @Param("phoneNumber") String phoneNumber,
+                @Param("shippingAddress") String shippingAddress
+    );
 }

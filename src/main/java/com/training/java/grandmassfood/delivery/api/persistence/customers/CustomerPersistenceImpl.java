@@ -7,12 +7,11 @@ import com.training.java.grandmassfood.delivery.api.dao.customers.repository.Cus
 import com.training.java.grandmassfood.delivery.api.exception.customers.CustomerNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.time.LocalDateTime;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Slf4j
 @Component
@@ -56,5 +55,17 @@ public class CustomerPersistenceImpl implements CustomerPersistence {
         customer.setCreatedAt(LocalDateTime.now());
         customerRepository.save(customer);
         return modelMapper.map(customer, CustomerResponse.class);
+    }
+
+    @Override
+    @Transactional
+    public void updateCustomer(String currentDocument, CustomerRequest customerRequest) {
+        customerRepository.update(currentDocument,
+                customerRequest.getDocumentNumber(),
+                customerRequest.getFullName(),
+                customerRequest.getEmail(),
+                customerRequest.getPhoneNumber(),
+                customerRequest.getShippingAddress()
+        );
     }
 }

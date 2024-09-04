@@ -8,4 +8,6 @@ public interface CustomerService {
     Long getCustomerId(String clientDocument);
     CustomerResponse getCustomerByDocument(String clientDocument);
     CustomerResponse createCustomer(CustomerRequest customerRequest);
+
+    void updateCustomer(String document, CustomerRequest customerRequest);
 }

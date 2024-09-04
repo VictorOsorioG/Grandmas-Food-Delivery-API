@@ -10,4 +10,6 @@ public interface CustomerPersistence {
     Customer getCustomerReference(Long customerId);
     CustomerResponse getCustomerByDocument(String clientDocument);
     CustomerResponse createCustomer(CustomerRequest customerRequest);
+
+    void updateCustomer(String currentDocument, CustomerRequest customerRequest);
 }
