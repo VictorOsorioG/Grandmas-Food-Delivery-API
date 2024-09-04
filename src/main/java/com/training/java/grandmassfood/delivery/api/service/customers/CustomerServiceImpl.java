@@ -45,11 +45,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResponse createCustomer(CustomerRequest customerRequest) {
         isValidClientDocument(customerRequest.getDocumentNumber());
-        if (customerPersistence.clientExists(customerRequest.getDocumentNumber())) {
-            throw new ClientAlreadyExists(customerRequest.getDocumentNumber());
-        }
-
+        isClientAlreadyExists(customerRequest.getDocumentNumber());
         return customerPersistence.createCustomer(customerRequest);
+    }
+
+    private void isClientAlreadyExists(String clientDocument) {
+        if (customerPersistence.clientExists(clientDocument)) {
+            throw new ClientAlreadyExists(clientDocument);
+        }
     }
 
     private void isValidClientDocument(String clientDocument) {
