@@ -20,4 +20,9 @@ public class CustomerAdvice {
                 .body(clientDocumentNotValidException.getStandardError());
     }
 
+    @ExceptionHandler(ClientAlreadyExists.class)
+    ResponseEntity<StandardError> handleClientAlreadyExists(ClientAlreadyExists clientAlreadyExists) {
+        return ResponseEntity.status(clientAlreadyExists.getHttpStatus())
+                .body(clientAlreadyExists.getStandardError());
+    }
 }
