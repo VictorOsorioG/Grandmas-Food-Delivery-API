@@ -27,7 +27,8 @@ public class ProductRequest {
     private String description;
 
     @DecimalMin(value = "0.01", inclusive = false, message = "The number must be greater than zero")
+    @NotNull(message = "Price field cannot be null")
     private Double price;
-    @NotNull(message = "Boolean field cannot be null")
+    @NotNull(message = "isAvailable field cannot be null")
     private Boolean isAvailable;
 }
