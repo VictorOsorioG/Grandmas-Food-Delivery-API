@@ -32,4 +32,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Long getIdByUuid(@Param("uuid") UUID productUuid);
 
     Optional<Product> findByUuid(UUID uuid);
+
+    @Query("SELECT COUNT(p) > 0 " +
+            "FROM Product p " +
+            "WHERE p.comboName = :comboName")
+    boolean existsByComboName(@Param("comboName") String comboName);
 }

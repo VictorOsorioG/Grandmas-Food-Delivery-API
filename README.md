@@ -21,14 +21,19 @@ This repository contains the code for the Minimum Viable Product (MVP) of the cl
 ```
 
 ## 🛠 Error Code Management
-* Codigo **E1000** customer not found
-* Codigo **E1001** product not found
-* Codigo **E1002** product not available
-* Codigo **E1003** document format invalid
-* Codigo **E1004** uuid invalid
-* Codigo **E1005** Delivered date in the future
-* Codigo **E1006** order not found
-* Codigo **E1007** order already delivered
+* Code **E1000** customer not found
+* Code **E1001** product not found
+* Code **E1002** product not available
+* Code **E1003** document format invalid
+* Code **E1004** uuid invalid
+* Code **E1005** Delivered date in the future
+* Code **E1006** order not found
+* Code **E1007** order already delivered
+* Code **E1008** client already exists
+* Code **E1009** No changes found in the customer
+* Code **E1010** product combo name already exists
+* Code **E1011** Invalid or incomplete product data
+* Code **E1012** Value written in the enum is not valid
 
 
 ## API Reference
