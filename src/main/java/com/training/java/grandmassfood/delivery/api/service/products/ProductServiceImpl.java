@@ -1,6 +1,8 @@
 package com.training.java.grandmassfood.delivery.api.service.products;
 
 import com.training.java.grandmassfood.delivery.api.dao.products.dto.ProductGetResponse;
+import com.training.java.grandmassfood.delivery.api.dao.products.dto.ProductRequest;
+import com.training.java.grandmassfood.delivery.api.exception.products.ProductNotAvailableComboName;
 import com.training.java.grandmassfood.delivery.api.exception.products.ProductNotAvailableException;
 import com.training.java.grandmassfood.delivery.api.exception.products.ProductNotFoundException;
 import com.training.java.grandmassfood.delivery.api.persistence.products.ProductPersistence;
@@ -54,4 +56,29 @@ public class ProductServiceImpl implements ProductService {
     public ProductGetResponse getProductByUuid(UUID uuid) {
         return productPersistence.getProductByUuid(uuid);
     }
+
+    @Override
+    public ProductGetResponse createProduct(ProductRequest productRequest) {
+        if (!isValidNameFantasy(productRequest.getComboName())) {
+            throw new ProductNotAvailableComboName(productRequest.getComboName());
+        }
+        return productPersistence.createProduct(productRequest);
+    }
+
+    private boolean isValidNameFantasy(String comboName){
+        if (productPersistence.productExistByComboName(comboName)) {
+            throw new ProductNotAvailableComboName(comboName);
+        }
+        return !productPersistence.productExistByComboName(comboName);
+    }
+
+
+
+
+
+
+
+
+
+
 }
