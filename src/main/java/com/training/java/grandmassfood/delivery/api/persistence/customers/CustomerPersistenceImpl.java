@@ -68,4 +68,10 @@ public class CustomerPersistenceImpl implements CustomerPersistence {
                 customerRequest.getShippingAddress()
         );
     }
+
+    @Override
+    @Transactional
+    public void deleteCustomer(String clientDocument) {
+        customerRepository.deleteByDocumentNumber(clientDocument);
+    }
 }

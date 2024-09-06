@@ -57,6 +57,12 @@ public class CustomerServiceImpl implements CustomerService {
         customerPersistence.updateCustomer(document, customerRequest);
     }
 
+    @Override
+    public void deleteCustomer(String document) {
+        clientExists(document);
+        customerPersistence.deleteCustomer(document);
+    }
+
     private void customerHasDifferentFields(String currentDocument, CustomerRequest updatedCustomer) {
         CustomerResponse currentCustomer = customerPersistence.getCustomerByDocument(currentDocument);
         if (customerEquals(updatedCustomer, currentCustomer)) {
