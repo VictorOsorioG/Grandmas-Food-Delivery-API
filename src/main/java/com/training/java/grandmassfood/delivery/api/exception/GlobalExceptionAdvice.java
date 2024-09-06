@@ -19,11 +19,12 @@ import java.util.stream.Collectors;
 public class GlobalExceptionAdvice {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     ResponseEntity<StandardError> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException argumentTypeMismatchException) {
+        String errorMessage = argumentTypeMismatchException.getMessage();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(StandardError.builder()
                         .code("E1004")
                         .timestamp(LocalDateTime.now())
-                        .description("Failed Uuid value: " + argumentTypeMismatchException.getMessage())
+                        .description("Failed Uuid value: " + errorMessage.substring(errorMessage.lastIndexOf(";") + 2))
                         .exception(argumentTypeMismatchException.getClass().getSimpleName())
                         .build());
     }
