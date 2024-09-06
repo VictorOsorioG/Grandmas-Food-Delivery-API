@@ -39,4 +39,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
                 @Param("phoneNumber") String phoneNumber,
                 @Param("shippingAddress") String shippingAddress
     );
+
+    @Query("DELETE FROM Customer c " +
+            "WHERE c.documentNumber = :clientDocument")
+    @Modifying
+    void deleteByDocumentNumber(@Param("clientDocument") String clientDocument);
 }

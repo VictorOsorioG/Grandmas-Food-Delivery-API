@@ -32,4 +32,10 @@ public class CustomerController {
     public void updateCustomer(@PathVariable String document, @Valid @RequestBody CustomerRequest customerRequest) {
         customerService.updateCustomer(document, customerRequest);
     }
+
+    @DeleteMapping("/{document}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCustomer(@PathVariable String document) {
+        customerService.deleteCustomer(document);
+    }
 }
