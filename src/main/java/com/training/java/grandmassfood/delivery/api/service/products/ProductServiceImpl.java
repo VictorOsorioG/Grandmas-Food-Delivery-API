@@ -83,6 +83,12 @@ public class ProductServiceImpl implements ProductService {
         productPersistence.updateProduct(uuid, productRequest);
     }
 
+    @Override
+    public void deleteProduct(UUID uuid) {
+        productExists(uuid);
+        productPersistence.deleteProduct(uuid);
+    }
+
     private boolean isValidNameFantasy(String comboName){
         if (productPersistence.productExistByComboName(comboName)) {
             throw new ProductNotAvailableComboName(comboName);

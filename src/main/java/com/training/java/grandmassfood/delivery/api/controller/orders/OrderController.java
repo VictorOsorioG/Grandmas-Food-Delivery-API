@@ -29,6 +29,7 @@ public class OrderController {
     }
 
     @PatchMapping("/{uuid}/delivered/{timestamp}")
+    @Operation(summary = "Update delivery status based on UUID and timestamp")
     public OrderCreatedResponse updateOrderToDelivered(@PathVariable UUID uuid, @PathVariable LocalDateTime timestamp) {
         return orderService.updateOrderToDelivered(uuid, timestamp);
     }

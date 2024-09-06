@@ -16,3 +16,10 @@ INSERT INTO order_items
 (id, order_id, product_id, quantity, additional_info, price)
 VALUES
 (1, 1, 1, 2, 'No onions', 19.98);
+
+-- REVERT
+-- DELETE FROM customers WHERE id = 1;
+-- DELETE FROM products WHERE id = 1;
+-- DELETE FROM orders WHERE id = 1;
+-- DELETE FROM order_items WHERE id = 1;
+-- DELETE FROM flyway_schema_history WHERE version = '1.1';

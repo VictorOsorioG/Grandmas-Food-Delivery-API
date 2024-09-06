@@ -90,6 +90,12 @@ public class ProductPersistenceImpl implements ProductPersistence {
         return productRepository.existsByComboName(comboName);
     }
 
+    @Override
+    @Transactional
+    public void deleteProduct(UUID uuid) {
+        productRepository.deleteProductByUuid(uuid);
+    }
+
     private ProductGetResponse mapToResponse(Product product) {
         return ProductGetResponse.builder()
                 .productUuid(product.getUuid())

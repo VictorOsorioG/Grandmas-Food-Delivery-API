@@ -16,4 +16,5 @@ public interface ProductPersistence {
     ProductGetResponse createProduct(ProductRequest productRequest);
     void updateProduct(UUID uuid, ProductRequest productRequest);
     boolean productExistByComboName(String comboName);
+    void deleteProduct(UUID uuid);
 }
