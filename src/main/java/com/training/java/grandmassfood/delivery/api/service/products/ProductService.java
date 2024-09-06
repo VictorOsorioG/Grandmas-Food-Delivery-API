@@ -12,4 +12,5 @@ public interface ProductService {
     Long getProductId(UUID productUuid);
     ProductGetResponse getProductByUuid(UUID uuid);
     ProductGetResponse createProduct(ProductRequest productRequest);
+    void updateProduct(UUID uuid, ProductRequest productRequest);
 }

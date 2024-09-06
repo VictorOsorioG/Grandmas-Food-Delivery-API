@@ -14,5 +14,6 @@ public interface ProductPersistence {
     Product getProductReference(Long productId);
     ProductGetResponse getProductByUuid(UUID uuid);
     ProductGetResponse createProduct(ProductRequest productRequest);
+    void updateProduct(UUID uuid, ProductRequest productRequest);
     boolean productExistByComboName(String comboName);
 }

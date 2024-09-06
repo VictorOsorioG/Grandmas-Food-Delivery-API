@@ -73,6 +73,19 @@ public class ProductPersistenceImpl implements ProductPersistence {
     }
 
     @Override
+    @Transactional
+    public void updateProduct(UUID uuid, ProductRequest productRequest) {
+        Product product = productRepository.findByUuid(uuid)
+                .orElseThrow(() -> new ProductNotFoundException(uuid));
+        product.setComboName(productRequest.getComboName());
+        product.setCategory(productRequest.getCategory());
+        product.setDescription(productRequest.getDescription());
+        product.setPrice(productRequest.getPrice());
+        product.setIsAvailable(productRequest.getIsAvailable());
+        productRepository.save(product);
+    }
+
+    @Override
     public boolean productExistByComboName(String comboName) {
         return productRepository.existsByComboName(comboName);
     }
