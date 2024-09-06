@@ -22,14 +22,22 @@ import java.util.UUID;
 public class ProductController {
     private final ProductService productService;
     private final ProductRepository productRepository;
+
     @GetMapping("/{uuid}")
     @Operation(summary = "Get the products by uuid")
     public ProductGetResponse getProduct(@PathVariable UUID uuid) {
         return productService.getProductByUuid(uuid);
     }
+
     @PostMapping
     @Operation(summary = "Post in DB and create product from body")
     public ProductGetResponse createProduct(@Valid @RequestBody ProductRequest productRequest){
         return productService.createProduct(productRequest);
+    }
+
+    @PutMapping("/{uuid}")
+    @Operation(summary = "Update product by uuid")
+    public void updateProduct(@PathVariable UUID uuid, @Valid @RequestBody ProductRequest productRequest){
+        productService.updateProduct(uuid, productRequest);
     }
 }

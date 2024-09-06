@@ -2,6 +2,7 @@ package com.training.java.grandmassfood.delivery.api.service.products;
 
 import com.training.java.grandmassfood.delivery.api.dao.products.dto.ProductGetResponse;
 import com.training.java.grandmassfood.delivery.api.dao.products.dto.ProductRequest;
+import com.training.java.grandmassfood.delivery.api.exception.products.ProductNoContentException;
 import com.training.java.grandmassfood.delivery.api.exception.products.ProductNotAvailableComboName;
 import com.training.java.grandmassfood.delivery.api.exception.products.ProductNotAvailableException;
 import com.training.java.grandmassfood.delivery.api.exception.products.ProductNotFoundException;
@@ -65,6 +66,23 @@ public class ProductServiceImpl implements ProductService {
         return productPersistence.createProduct(productRequest);
     }
 
+    @Override
+    public void updateProduct(UUID uuid, ProductRequest productRequest) {
+        productExists(uuid);
+
+        ProductGetResponse currentProduct = productPersistence.getProductByUuid(uuid);
+
+        if (isNoDifference(currentProduct, productRequest)) {
+            throw new ProductNoContentException();
+        }
+
+        if (!isValidNameFantasy(productRequest.getComboName())) {
+            throw new ProductNotAvailableComboName(productRequest.getComboName());
+        }
+
+        productPersistence.updateProduct(uuid, productRequest);
+    }
+
     private boolean isValidNameFantasy(String comboName){
         if (productPersistence.productExistByComboName(comboName)) {
             throw new ProductNotAvailableComboName(comboName);
@@ -72,6 +90,13 @@ public class ProductServiceImpl implements ProductService {
         return !productPersistence.productExistByComboName(comboName);
     }
 
+    private boolean isNoDifference(ProductGetResponse currentProduct, ProductRequest newProductRequest) {
+        return Objects.equals(currentProduct.getComboName(), newProductRequest.getComboName()) &&
+                Objects.equals(currentProduct.getCategory(), newProductRequest.getCategory()) &&
+                Objects.equals(currentProduct.getDescription(), newProductRequest.getDescription()) &&
+                Objects.equals(currentProduct.getPrice(), newProductRequest.getPrice()) &&
+                Objects.equals(currentProduct.getIsAvailable(), newProductRequest.getIsAvailable());
+    }
 
 
 
