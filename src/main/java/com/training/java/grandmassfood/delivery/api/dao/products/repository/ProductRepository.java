@@ -1,7 +1,9 @@
 package com.training.java.grandmassfood.delivery.api.dao.products.repository;
 
+import com.training.java.grandmassfood.delivery.api.dao.products.entity.Category;
 import com.training.java.grandmassfood.delivery.api.dao.products.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -37,4 +39,19 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "FROM Product p " +
             "WHERE p.comboName = :comboName")
     boolean existsByComboName(@Param("comboName") String comboName);
+
+    @Query("UPDATE Product p " +
+            "SET p.comboName = :comboName, " +
+            "p.category = :category, " +
+            "p.description = :description, " +
+            "p.price = :price, " +
+            "p.isAvailable = :isAvailable " +
+            "WHERE p.uuid = :uuid")
+    @Modifying
+    void update(@Param("uuid") UUID uuid,
+                @Param("comboName") String comboName,
+                @Param("category") Category category,
+                @Param("description") String description,
+                @Param("price") Double price,
+                @Param("isAvailable") Boolean isAvailable);
 }
