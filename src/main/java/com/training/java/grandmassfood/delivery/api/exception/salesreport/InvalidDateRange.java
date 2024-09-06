@@ -7,6 +7,6 @@ import java.time.LocalDateTime;
 
 public class InvalidDateRange extends StandardException {
     public InvalidDateRange(LocalDateTime startDate, LocalDateTime endDate) {
-        super("E1015", HttpStatus.BAD_REQUEST, "The start date " + startDate + " is after the end date " + endDate);
+        super("E1014", HttpStatus.BAD_REQUEST, "The start date " + startDate + " is after the end date " + endDate);
     }
 }
