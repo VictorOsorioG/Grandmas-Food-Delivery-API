@@ -54,4 +54,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                 @Param("description") String description,
                 @Param("price") Double price,
                 @Param("isAvailable") Boolean isAvailable);
+
+    @Query("DELETE FROM Product p " +
+            "WHERE p.uuid = :uuid")
+    @Modifying
+    void deleteProductByUuid(@Param("uuid") UUID uuid);
 }

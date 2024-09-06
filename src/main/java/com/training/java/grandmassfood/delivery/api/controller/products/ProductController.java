@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +22,6 @@ import java.util.UUID;
 @Tag(name = "Product Controllers")
 public class ProductController {
     private final ProductService productService;
-    private final ProductRepository productRepository;
 
     @GetMapping("/{uuid}")
     @Operation(summary = "Get the products by uuid")
@@ -39,5 +39,12 @@ public class ProductController {
     @Operation(summary = "Update product by uuid")
     public void updateProduct(@PathVariable UUID uuid, @Valid @RequestBody ProductRequest productRequest){
         productService.updateProduct(uuid, productRequest);
+    }
+
+    @DeleteMapping("/{uuid}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete product in DB")
+    public void deleteProduct(@PathVariable UUID uuid){
+        productService.deleteProduct(uuid);
     }
 }
