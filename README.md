@@ -35,6 +35,8 @@ This repository contains the code for the Minimum Viable Product (MVP) of the cl
 * Code **E1011** Invalid or incomplete product data
 * Code **E1012** Value written in the enum is not valid
 * Code **E1013** product invalid content
+* Code **E1014** Date format invalid
+* Code **E1015** Date range is not valid
 
 
 ## API Reference
