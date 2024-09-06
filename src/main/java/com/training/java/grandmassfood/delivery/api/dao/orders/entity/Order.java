@@ -1,7 +1,7 @@
 package com.training.java.grandmassfood.delivery.api.dao.orders.entity;
 
 import com.training.java.grandmassfood.delivery.api.dao.customers.entity.Customer;
-import com.training.java.grandmassfood.delivery.api.dao.products.entity.Product;
+import com.training.java.grandmassfood.delivery.api.dao.orderitems.entity.OrderItems;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -39,5 +39,6 @@ public class Order {
     private Boolean isDelivered;
     @Column
     private LocalDateTime deliveredAt;
-
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<OrderItems> orderItems;
 }
