@@ -76,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
             throw new ProductNoContentException();
         }
 
-        if (!isValidNameFantasy(productRequest.getComboName())) {
+        if (!currentProduct.getComboName().equals(productRequest.getComboName()) && !isValidNameFantasy(productRequest.getComboName())) {
             throw new ProductNotAvailableComboName(productRequest.getComboName());
         }
 
