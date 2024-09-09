@@ -2,12 +2,15 @@ package com.training.java.grandmassfood.delivery.api.dao.products.repository;
 
 import com.training.java.grandmassfood.delivery.api.dao.products.entity.Category;
 import com.training.java.grandmassfood.delivery.api.dao.products.entity.Product;
+import com.training.java.grandmassfood.delivery.api.dao.products.projection.ProductSalesView;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -59,4 +62,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "WHERE p.uuid = :uuid")
     @Modifying
     void deleteProductByUuid(@Param("uuid") UUID uuid);
+
+    @Query("SELECT p.comboName AS comboName, SUM(oi.quantity) AS quantity, SUM(oi.quantity * oi.price) AS grossSales " +
+            "FROM Order o " +
+            "INNER JOIN o.orderItems oi " +
+            "INNER JOIN oi.product p " +
+            "WHERE o.orderDate BETWEEN :startDate AND :endDate " +
+            "GROUP BY p.id, p.comboName " +
+            "HAVING SUM(oi.quantity * oi.price) > 0")
+    List<ProductSalesView> getProductSales(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+
 }

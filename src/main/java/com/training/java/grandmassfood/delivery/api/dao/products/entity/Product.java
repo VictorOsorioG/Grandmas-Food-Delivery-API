@@ -1,9 +1,11 @@
 package com.training.java.grandmassfood.delivery.api.dao.products.entity;
 
+import com.training.java.grandmassfood.delivery.api.dao.orderitems.entity.OrderItems;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -32,4 +34,6 @@ public class Product {
     private Boolean isAvailable;
     @Column
     private LocalDateTime createdAt;
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<OrderItems> orderItems;
 }
