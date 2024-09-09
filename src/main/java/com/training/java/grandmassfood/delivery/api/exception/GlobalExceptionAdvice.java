@@ -1,6 +1,8 @@
 package com.training.java.grandmassfood.delivery.api.exception;
 
 import com.training.java.grandmassfood.delivery.api.dao.products.entity.Category;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -10,9 +12,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -58,6 +61,25 @@ public class GlobalExceptionAdvice {
             sb.append(category.toString()).append(", ");
         }
         return sb.toString();
+    }
+
+    @ExceptionHandler(Exception.class)
+    ResponseEntity<StandardError> NullPointerException(Exception exception) {
+        String stackTrace = getStackTraceAsString(exception);
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(StandardError.builder()
+                        .code("E1013")
+                        .timestamp(LocalDateTime.now())
+                        .description("Server Error: " + exception.getMessage())
+                        .exception(exception.getClass().getSimpleName() + "Traza: " + stackTrace)
+                        .build());
+    }
+    private String getStackTraceAsString(Throwable exception) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        exception.printStackTrace(pw);
+        return sw.toString();
     }
     @ExceptionHandler(StandardException.class)
     ResponseEntity<StandardError> handleProductNotFoundException(StandardException standardException) {
