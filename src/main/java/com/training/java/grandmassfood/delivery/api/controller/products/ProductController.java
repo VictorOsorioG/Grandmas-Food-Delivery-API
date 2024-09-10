@@ -29,6 +29,12 @@ public class ProductController {
         return productService.getProductByUuid(uuid);
     }
 
+    @GetMapping("/search")
+    @Operation(summary = "Search products by fantasy name")
+    public List<ProductGetResponse> searchProducts(@RequestParam String q) {
+        return productService.searchProducts(q);
+    }
+
     @PostMapping
     @Operation(summary = "Post in DB and create product from body")
     public ProductGetResponse createProduct(@Valid @RequestBody ProductRequest productRequest){

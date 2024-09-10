@@ -72,4 +72,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "HAVING SUM(oi.quantity * oi.price) > 0")
     List<ProductSalesView> getProductSales(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
+    @Query("SELECT p " +
+           "FROM Product p " +
+           "WHERE LOWER(p.comboName) LIKE LOWER(CONCAT('%', :fantasyName, '%')) " +
+           "ORDER BY p.comboName ASC")
+    List<Product> findByFantasyNameContainingIgnoreCaseOrderByComboNameAsc(@Param("fantasyName") String fantasyName);
+
 }

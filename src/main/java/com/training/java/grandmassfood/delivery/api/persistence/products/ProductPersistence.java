@@ -4,6 +4,7 @@ import com.training.java.grandmassfood.delivery.api.dao.products.dto.ProductGetR
 import com.training.java.grandmassfood.delivery.api.dao.products.dto.ProductRequest;
 import com.training.java.grandmassfood.delivery.api.dao.products.entity.Product;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface ProductPersistence {
@@ -13,6 +14,7 @@ public interface ProductPersistence {
     Long getProductId(UUID productUuid);
     Product getProductReference(Long productId);
     ProductGetResponse getProductByUuid(UUID uuid);
+    List<ProductGetResponse> searchProductsByFantasyName(String fantasyName);
     ProductGetResponse createProduct(ProductRequest productRequest);
     void updateProduct(UUID uuid, ProductRequest productRequest);
     boolean productExistByComboName(String comboName);

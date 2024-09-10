@@ -12,8 +12,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -59,6 +61,15 @@ public class ProductPersistenceImpl implements ProductPersistence {
         Optional<Product> optionalProduct = productRepository.findByUuid(uuid);
         return optionalProduct.map(this::mapToResponse)
                 .orElseThrow(() -> new ProductNotFoundException(uuid));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProductGetResponse> searchProductsByFantasyName(String fantasyName) {
+        List<Product> products = productRepository.findByFantasyNameContainingIgnoreCaseOrderByComboNameAsc(fantasyName);
+        return products.stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
