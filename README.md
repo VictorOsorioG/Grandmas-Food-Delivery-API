@@ -37,6 +37,7 @@ This repository contains the code for the Minimum Viable Product (MVP) of the cl
 * Code **E1013** product invalid content
 * Code **E1014** Date format invalid
 * Code **E1015** Date range is not valid
+* Code **E1016** product not search query
 
 
 ## API Reference

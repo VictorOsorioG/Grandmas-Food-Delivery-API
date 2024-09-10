@@ -6,11 +6,13 @@ import com.training.java.grandmassfood.delivery.api.exception.products.ProductNo
 import com.training.java.grandmassfood.delivery.api.exception.products.ProductNotAvailableComboName;
 import com.training.java.grandmassfood.delivery.api.exception.products.ProductNotAvailableException;
 import com.training.java.grandmassfood.delivery.api.exception.products.ProductNotFoundException;
+import com.training.java.grandmassfood.delivery.api.exception.products.ProductNotSearchQuery;
 import com.training.java.grandmassfood.delivery.api.persistence.products.ProductPersistence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -56,6 +58,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductGetResponse getProductByUuid(UUID uuid) {
         return productPersistence.getProductByUuid(uuid);
+    }
+
+    @Override
+    public List<ProductGetResponse> searchProducts(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            throw new ProductNotSearchQuery();
+        }
+
+        List<ProductGetResponse> products = productPersistence.searchProductsByFantasyName(query.trim());
+        return products;
     }
 
     @Override
