@@ -11,6 +11,15 @@ This repository contains the code for the Minimum Viable Product (MVP) of the cl
 **Documentation:** Swagger
 
 
+## Installation
+
+- Clone the repository.
+```bash
+  - Install the required dependencies
+  - Set up the database and configure the connection details
+  - Start the server and launch the application
+```
+
 ## 🛠 Error Code Management
 * Code **E1000** customer not found
 * Code **E1001** product not found
@@ -34,8 +43,17 @@ This repository contains the code for the Minimum Viable Product (MVP) of the cl
 
 ## API Reference
 
-* ### [Insomnia collection](https://github.com/VictorOsorioG/Grandmas-Food-Delivery-API/insomnia_collection.json)
-* ### [Swagger Documentation](http://localhost:8080/api/delivery/swagger-ui/index.html)
+### [Insomnia collection](https://github.com/VictorOsorioG/Grandmas-Food-Delivery-API/insomnia_collection.json)
+Import the collection into insomnia to test all the request.
+
+For a different API platform use 
+```bash
+{
+	"GMFD_url": "http://localhost:8080/api/delivery/v1"
+}
+```
+
+### [Swagger Documentation](http://localhost:8080/api/delivery/swagger-ui/index.html)
 
 
 ## Authors
