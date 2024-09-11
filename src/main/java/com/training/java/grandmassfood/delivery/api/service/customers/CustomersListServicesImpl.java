@@ -2,6 +2,7 @@ package com.training.java.grandmassfood.delivery.api.service.customers;
 
 import com.training.java.grandmassfood.delivery.api.dao.customers.dto.CustomerList;
 import com.training.java.grandmassfood.delivery.api.dao.customers.dto.CustomerListResponse;
+import com.training.java.grandmassfood.delivery.api.exception.sortedlist.InvalidSortingParameter;
 import com.training.java.grandmassfood.delivery.api.persistence.customers.CustomerListPersistence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,6 @@ public class CustomersListServicesImpl implements CustomersListServices {
     public CustomerListResponse getListCustomers(String orderBy, String direction) {
         validateDirection(direction);
         validateOptionsOrderBy(orderBy) ;
-        System.out.println(orderBy);
         List<CustomerList> customerLists = customerListPersistence.getListCustomers(orderBy,direction);
         return CustomerListResponse.builder()
                 .orderBy(orderBy)
@@ -28,12 +28,12 @@ public class CustomersListServicesImpl implements CustomersListServices {
     }
     private void validateDirection(String direction){
         if (!"ASC".equalsIgnoreCase(direction) && !"DESC".equalsIgnoreCase(direction)) {
-            throw new IllegalArgumentException("Invalid direction: " + direction);
+            throw new InvalidSortingParameter("Invalid direction: " + direction);
         }
     }
     private void validateOptionsOrderBy(String orderBy){
         if (!"DOCUMENT".equalsIgnoreCase(orderBy) && !"NAME".equalsIgnoreCase(orderBy) && !"ADDRESS".equalsIgnoreCase(orderBy)) {
-            throw new IllegalArgumentException("Invalid Option Order: " + orderBy);
+            throw new InvalidSortingParameter("Invalid Option Order: " + orderBy);
         }
     }
 }

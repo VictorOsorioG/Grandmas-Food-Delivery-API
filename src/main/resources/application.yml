@@ -17,7 +17,7 @@ spring:
 server:
   port: 8080
   servlet:
-    context-path: /api/delivery
+    context-path: /api/delivery/v1/
 
 logging:
   level:

@@ -11,15 +11,6 @@ This repository contains the code for the Minimum Viable Product (MVP) of the cl
 **Documentation:** Swagger
 
 
-## Installation
-
-- Clone the repository.
-```bash
-  - Install the required dependencies
-  - Set up the database and configure the connection details
-  - Start the server and launch the application
-```
-
 ## 🛠 Error Code Management
 * Code **E1000** customer not found
 * Code **E1001** product not found
@@ -38,32 +29,13 @@ This repository contains the code for the Minimum Viable Product (MVP) of the cl
 * Code **E1014** Date format invalid
 * Code **E1015** Date range is not valid
 * Code **E1016** product not search query
+* Code **E1017** Invalid sorting parameter
 
 
 ## API Reference
 
-#### Get items
-
-```http
-  GET /api/delivery/products/${uuid}
-```
-
-#### POST create order
-
-```http
-  POST /api/delivery/orders/
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-|      |  |  |
-
-
-
-
-## Documentation
-
-[Documentation](http://localhost:8080/api/delivery/swagger-ui/index.html)
+* ### [Insomnia collection](https://github.com/VictorOsorioG/Grandmas-Food-Delivery-API/insomnia_collection.json)
+* ### [Swagger Documentation](http://localhost:8080/api/delivery/swagger-ui/index.html)
 
 
 ## Authors

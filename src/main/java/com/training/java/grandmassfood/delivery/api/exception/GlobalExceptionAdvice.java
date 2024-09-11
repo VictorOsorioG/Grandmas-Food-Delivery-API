@@ -39,7 +39,7 @@ public class GlobalExceptionAdvice {
                         .timestamp(LocalDateTime.now())
                         .description(argumentNotValidException.getFieldErrors().stream()
                                 .map(FieldError::getDefaultMessage)
-                                .collect(Collectors.joining()))
+                                .collect(Collectors.joining(",")))
                         .exception(argumentNotValidException.getClass().getSimpleName())
                         .build());
     }
