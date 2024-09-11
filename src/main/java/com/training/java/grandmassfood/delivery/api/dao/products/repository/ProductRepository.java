@@ -2,7 +2,9 @@ package com.training.java.grandmassfood.delivery.api.dao.products.repository;
 
 import com.training.java.grandmassfood.delivery.api.dao.products.entity.Category;
 import com.training.java.grandmassfood.delivery.api.dao.products.entity.Product;
+import com.training.java.grandmassfood.delivery.api.dao.products.projection.ProductListView;
 import com.training.java.grandmassfood.delivery.api.dao.products.projection.ProductSalesView;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -78,4 +80,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
            "ORDER BY p.comboName ASC")
     List<Product> findByFantasyNameContainingIgnoreCaseOrderByComboNameAsc(@Param("fantasyName") String fantasyName);
 
+    @Query("SELECT p.category AS category, p.comboName AS fantasyName, (p.price * 0.19 + p.price) AS priceWithTax " +
+            "FROM Product p " +
+            "WHERE p.isAvailable = true " +
+            "ORDER BY p.category, p.comboName")
+    List<ProductListView> getListProductByCategory();
 }

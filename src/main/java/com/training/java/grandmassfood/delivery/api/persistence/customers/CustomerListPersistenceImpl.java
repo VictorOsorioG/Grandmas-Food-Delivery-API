@@ -26,7 +26,6 @@ public class CustomerListPersistenceImpl implements CustomerListPersistence {
     @Override
     @Transactional(readOnly = true)
     public List<CustomerList> getListCustomers(String orderBy, String direction) {
-        System.out.println(orderBy);
        if ( "DESC".equalsIgnoreCase(direction)){
            return customerRepository.getListCustomerByDesc(orderBy).stream()
                    .map(view -> modelMapper.map(view, CustomerList.class))
