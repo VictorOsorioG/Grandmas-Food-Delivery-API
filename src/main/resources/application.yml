@@ -17,7 +17,7 @@ spring:
 server:
   port: 8080
   servlet:
-    context-path: /api/delivery
+    context-path: /api/delivery/v1/
 
 logging:
   level:
@@ -29,3 +29,7 @@ flyway:
   schemas: grandmasfoodDB
   url: jdbc:h2:file:./grandmasfoodDB
   locations: filesystem:db/migration
+
+values:
+  iva:
+    value: 0.19
