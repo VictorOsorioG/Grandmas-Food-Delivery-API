@@ -19,10 +19,13 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
+    private static final String LOG_PREFIX = "CustomerService >>>";
+
     private final CustomerPersistence customerPersistence;
 
     @Override
     public void clientExists(String clientDocument) {
+        log.info("{} Checking if client {} exit", LOG_PREFIX, clientDocument);
         if (!customerPersistence.clientExists(clientDocument)) {
             throw new CustomerNotFoundException(clientDocument);
         }
@@ -30,6 +33,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Long getCustomerId(String clientDocument) {
+        log.info("{} Getting client {} id", LOG_PREFIX, clientDocument);
         Long customerId = customerPersistence.getCustomerId(clientDocument);
         if (Objects.isNull(customerId)) {
             throw new CustomerNotFoundException(clientDocument);
@@ -40,6 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResponse getCustomerByDocument(String clientDocument) {
         isValidClientDocument(clientDocument);
+        log.info("{} Getting client {}", LOG_PREFIX, clientDocument);
         return customerPersistence.getCustomerByDocument(clientDocument);
     }
 
@@ -47,6 +52,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerResponse createCustomer(CustomerRequest customerRequest) {
         isValidClientDocument(customerRequest.getDocumentNumber());
         isClientAlreadyExists(customerRequest.getDocumentNumber());
+        log.info("{} Creating client", LOG_PREFIX);
         return customerPersistence.createCustomer(customerRequest);
     }
 
@@ -54,12 +60,14 @@ public class CustomerServiceImpl implements CustomerService {
     public void updateCustomer(String document, CustomerRequest customerRequest) {
         clientExists(document);
         customerHasDifferentFields(document, customerRequest);
+        log.info("{} Updating client {}", LOG_PREFIX, document);
         customerPersistence.updateCustomer(document, customerRequest);
     }
 
     @Override
     public void deleteCustomer(String document) {
         clientExists(document);
+        log.info("{} Deleting client {}", LOG_PREFIX, document);
         customerPersistence.deleteCustomer(document);
     }
 

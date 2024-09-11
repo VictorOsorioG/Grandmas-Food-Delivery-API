@@ -23,6 +23,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
+    private static final String LOG_PREFIX = "OrderService >>>";
+
     @Value("${values.iva.value}")
     private double IVA;
 
@@ -34,14 +36,17 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderCreatedResponse saveOrder(OrderRequest orderRequest) {
+        log.info("{} Validating request", LOG_PREFIX);
         validateOrder(orderRequest.getClientDocument(), orderRequest.getProductUuid());
         FullOrder fullOrder = buildFullOrder(orderRequest);
+        log.info("{} Creating order", LOG_PREFIX);
         return orderPersistence.saveOrder(fullOrder);
     }
 
     @Override
     public OrderCreatedResponse updateOrderToDelivered(UUID uuid, LocalDateTime timestamp) {
         validateOrderAndTimestamp(uuid, timestamp);
+        log.info("{} Updating to delivered the order {}", LOG_PREFIX, uuid);
         return orderPersistence.updateOrderToDelivered(uuid, timestamp);
     }
 
