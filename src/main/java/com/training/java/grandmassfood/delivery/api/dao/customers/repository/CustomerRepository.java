@@ -1,12 +1,14 @@
 package com.training.java.grandmassfood.delivery.api.dao.customers.repository;
 
 import com.training.java.grandmassfood.delivery.api.dao.customers.entity.Customer;
+import com.training.java.grandmassfood.delivery.api.dao.customers.projection.CustomerListView;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -44,4 +46,18 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
             "WHERE c.documentNumber = :clientDocument")
     @Modifying
     void deleteByDocumentNumber(@Param("clientDocument") String clientDocument);
+        @Query("SELECT c FROM Customer c ORDER BY " +
+                "CASE WHEN :orderBy = 'DOCUMENT' THEN c.documentNumber " +
+                "     WHEN :orderBy = 'NAME' THEN c.fullName " +
+                "     WHEN :orderBy = 'ADDRESS' THEN c.shippingAddress " +
+                "     END "+
+                "ASC")
+        List<CustomerListView> getListCustomerByAsc(@Param("orderBy") String orderBy);
+        @Query("SELECT c FROM Customer c ORDER BY " +
+                "CASE WHEN :orderBy = 'DOCUMENT' THEN c.documentNumber " +
+                "     WHEN :orderBy = 'NAME' THEN c.fullName " +
+                "     WHEN :orderBy = 'ADDRESS' THEN c.shippingAddress " +
+                "     END "+
+                "DESC")
+        List<CustomerListView> getListCustomerByDesc(@Param("orderBy") String orderBy);
 }
